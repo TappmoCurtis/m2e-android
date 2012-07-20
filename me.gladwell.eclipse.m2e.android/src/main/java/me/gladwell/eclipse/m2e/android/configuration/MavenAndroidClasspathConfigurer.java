@@ -28,11 +28,15 @@ public class MavenAndroidClasspathConfigurer implements AndroidClasspathConfigur
 	private static final String ANDROID_CLASSES_FOLDER = "bin/classes";
 
 	public void addGenFolder(IJavaProject javaProject, AndroidProject project, IClasspathDescriptor classpath) {
+                // Remove so that we always add the gen after our src folder. This means that the source directory will
+                // be used as the source attachment rather than the gen folder.
 		IPath gen = javaProject.getPath().append(ANDROID_GEN_PATH);
-		if (!classpath.containsPath(gen)) {
-			IPath classesOutput = javaProject.getPath().append(ANDROID_CLASSES_FOLDER);
-			classpath.addSourceEntry(gen, classesOutput, true);
-		}
+		if (classpath.containsPath(gen)) {
+                        classpath.removeEntry(gen);
+                }
+
+                IPath classesOutput = javaProject.getPath().append(ANDROID_CLASSES_FOLDER);
+                classpath.addSourceEntry(gen, classesOutput, true);
 	}
 
 	public void removeNonRuntimeDependencies(AndroidProject project, IClasspathDescriptor classpath) {

@@ -100,8 +100,8 @@ public class AndroidMavenProjectConfigurator extends AbstractJavaProjectConfigur
 		final AndroidProject project = mavenProjectFactory.createAndroidProject(request.getMavenProject());
 		final IJavaProject javaProject = JavaCore.create(request.getProject());
 		try {
-			classpathConfigurer.addGenFolder(javaProject, project, classpath);
 			classpathConfigurer.modifySourceFolderOutput(javaProject, project, classpath);
+			classpathConfigurer.addGenFolder(javaProject, project, classpath);
 			classpathConfigurer.removeJreClasspathContainer(classpath);
 			classpathConfigurer.markMavenContainerExported(classpath);
 		} catch (Exception e) {
